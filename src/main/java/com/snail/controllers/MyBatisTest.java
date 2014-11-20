@@ -32,7 +32,7 @@ public class MyBatisTest {
 
 
     public static void main(String[] args){
-        String resource = "classpath:mybatis-config.xml";
+        String resource = "classpath:";
         try {
             InputStream inputStream = Resources.getResourceAsStream(resource);
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);

@@ -1,0 +1,72 @@
+<!-- if debug set to true, context info always print otherwise the contex 
+	info will print when error occour -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<!-- 所有日志文件 -->
+	<appender name="AllLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>D:/log/springmvc/all/all.log</file>
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>D:/log/springmvc/all/%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="TaskLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>D:/log/springmvc/task/task.log</file>
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>D:/log/springmvc/task/%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="SendLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>D:/log/springmvc/send/send.log</file>
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>D:/log/springmvc/send/%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<!-- 为某个包下的所有类指定Appender 这里也可以指定类名称例如：com.aa.bb.ClassName -->
+	<logger name="com.aa.bb">
+		<appender-ref ref="TaskLog" />
+	</logger>
+
+	<logger name="com.aa.cc">
+		<appender-ref ref="SendLog" />
+	</logger>
+	
+	<logger name="all">
+		<appender-ref ref="AllLog" />
+	</logger>
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -62,6 +63,15 @@ Account:<input type="text" name="username" id="username"/>
 User ID:<input type="text" name="userId" id="userId"/>
 <input type="button" id="btn02" value="search"/>
 <hr/>
+<br/>
+<shiro:user>
+    <!-- shiro:principal打印出了Subject的主当事人 - 在这个示例中，就是用户名： -->
+    <shiro:principal/>!
 
+</shiro:user>
+<shiro:guest>
+    <!-- 没有登录 - 就认为是Guest。显示注册链接： -->
+    ! <a href="register.jsp">Register today!</a>
+</shiro:guest>
 </body>
 </html>

@@ -8,48 +8,109 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.snail</groupId>
-    <artifactId>snail-webapp</artifactId>
+    <groupId>com.meki</groupId>
+    <artifactId>meki-snail-webapp</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>snail-webapp</name>
 
     <dependencies>
         <dependency>
+            <groupId>com.meki</groupId>
+            <artifactId>snail-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <version>4.0.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <version>4.0.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <artifactId>spring-core</artifactId>
+            <version>4.0.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <artifactId>spring-context</artifactId>
+            <version>4.0.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>4.1.1.RELEASE</version>
+            <artifactId>spring-beans</artifactId>
+            <version>4.0.7.RELEASE</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.security</groupId>-->
+        <!--<artifactId>spring-security-core</artifactId>-->
+        <!--<version>4.0.7.RELEASE</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jolbox</groupId>
+            <artifactId>bonecp</artifactId>
+            <version>0.7.1.RELEASE</version>
         </dependency>
 
         <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <!-- Common Dependencies -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.34</version>
         </dependency>
 
         <dependency>
@@ -58,14 +119,6 @@
             <version>1.2</version>
         </dependency>
 
-        <!-- Common Dependencies -->
-        <dependency>
-            <groupId>com.meki</groupId>
-            <artifactId>meki-play-framework</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <!-- Third providers' Dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -75,8 +128,9 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>1.7.7</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
@@ -91,7 +145,8 @@
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-        </dependency>
+        </dependency>-->
+
         <dependency>
             <groupId>org.apache.servicemix.specs</groupId>
             <artifactId>org.apache.servicemix.specs.jsr303-api-1.0.0</artifactId>
@@ -117,49 +172,84 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <project.environment>dev</project.environment>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <project.environment>dev</project.environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>product</id>
+            <properties>
+                <project.environment>product</project.environment>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>snail</finalName>
+        <filters>
+            <filter>src/main/filters/filter_${project.environment}.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <executions>
-                    <execution>
-                        <id>tomcat-run</id>
-                        <goals>
-                            <goal>exec-war-only</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <warRunDependencies>
-                                <warRunDependency>
-                                    <dependency>
-                                        <groupId>cmsi</groupId>
-                                        <artifactId>cmsi</artifactId>
-                                        <version>1.0-SNAPSHOT</version>
-                                        <type>war</type>
-                                    </dependency>
-                                    <contextPath>/</contextPath>
-                                </warRunDependency>
-                            </warRunDependencies>
-                            <enableNaming>true</enableNaming>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.3.2</version>
                 <configuration>
+                    <encoding>UTF8</encoding>
                     <source>1.6</source>
                     <target>1.6</target>
-                    <encoding>UTF-8</encoding>
-                    <!-- <failOnError>false</failOnError> -->
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                    <overWriteReleases>false</overWriteReleases>
+                    <overWriteSnapshots>false</overWriteSnapshots>
+                    <overWriteIfNewer>true</overWriteIfNewer>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.22</version>
+                <configuration>
+                    <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+                    <!-- 每2秒的间隔扫描一次,实现热部署 -->
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+                </configuration>
+
             </plugin>
         </plugins>
     </build>
-
 </project>

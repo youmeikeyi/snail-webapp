@@ -7,13 +7,16 @@
 
     <display-name>snail webapp</display-name>
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml</param-value>
-    </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:conf/*-mybatis.xml;
+            classpath*:snail-spring-*.xml
+        </param-value>
+    </context-param>
 
     <!-- POST中文乱码过滤器 -->
     <filter>
@@ -40,13 +43,25 @@
         <servlet-name>snail</servlet-name>
     </filter-mapping>
 
+    <!-- apache shiro filter configuration -->
+    <!--<filter>
+        <filter-name>ShiroFilter</filter-name>
+        <filter-class>
+            org.apache.shiro.web.servlet.ShiroFilter
+        </filter-class>
+        &lt;!&ndash; 没有init-param属性就表示从classpath:shiro.ini装入INI配置 &ndash;&gt;
+    </filter>
+    <filter-mapping>
+        <filter-name>ShiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
 
     <servlet>
         <servlet-name>snail</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:snail-servlet.xml</param-value>
+            <param-value>classpath*:WEB-INF/snail-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -56,4 +71,12 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <error-code>500</error-code>
+        <location>/resources/pages/500.html</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/resources/pages/404.html</location>
+    </error-page>
 </web-app>
