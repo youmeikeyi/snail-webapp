@@ -1,4 +1,5 @@
-<!-- if debug set to true, context info always print otherwise the contex 
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- if debug set to true, context info always print otherwise the contex
 	info will print when error occour -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
