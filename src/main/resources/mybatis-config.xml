@@ -48,10 +48,10 @@
         <environment id="development">
             <transactionManager type="JDBC"/> 
             <dataSource type="POOLED">
-                <property name="driver" value=""/>
-                <property name="url" value=""/>
-                <property name="username" value=""/>
-                <property name="password" value=""/>
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="jdbc:mysql://page1.yz.db.d.xiaonei.com:3309/rr_zhaopin?useUnicode=true&amp;characterEncoding=utf-8"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
             </dataSource>
         </environment>
         
