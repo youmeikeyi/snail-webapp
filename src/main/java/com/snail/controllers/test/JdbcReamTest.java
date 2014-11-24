@@ -23,7 +23,7 @@ public class JdbcReamTest {
         datasource.setPassword("12345");
         datasource.setServerName("localhost");
         // datasource.setDriverClassName("com.mysql.jdbc.Driver");
-        datasource.setUrl("jdbc:mysql://localhost:3306/test");
+        datasource.setUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8");
         // datasource.setMaxActive(10);
 
         org.apache.shiro.realm.jdbc.JdbcRealm jdbcRealm = new JdbcRealm();
@@ -37,7 +37,8 @@ public class JdbcReamTest {
         SecurityUtils.setSecurityManager(security);
         Subject currentUser = SecurityUtils.getSubject();
         if (!currentUser.isAuthenticated()) {
-            UsernamePasswordToken token = new UsernamePasswordToken("lilei",
+            //lilei
+            UsernamePasswordToken token = new UsernamePasswordToken("李文",
                     "1234");
             token.setRememberMe(true);
             try {
