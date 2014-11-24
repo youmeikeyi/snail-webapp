@@ -22,8 +22,8 @@ public class JdbcReamTest {
         datasource.setUser("root");
         datasource.setPassword("12345");
         datasource.setServerName("localhost");
-        // datasource.setDriverClassName("com.mysql.jdbc.Driver");
-        datasource.setUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8");
+        // datasource.setDriverClassName("com.mysql.jdbc.Driver");?useUnicode=true&amp;characterEncoding=utf-8
+        datasource.setUrl("jdbc:mysql://localhost:3306/test");
         // datasource.setMaxActive(10);
 
         org.apache.shiro.realm.jdbc.JdbcRealm jdbcRealm = new JdbcRealm();
@@ -31,19 +31,20 @@ public class JdbcReamTest {
         jdbcRealm.setPermissionsLookupEnabled(true);
         jdbcRealm.setAuthenticationQuery("SELECT password FROM users WHERE username = ?");
         jdbcRealm.setUserRolesQuery("SELECT rolename FROM user_roles WHERE username= ?");
-//		jdbcRealm
-//				.setPermissionsQuery("SELECT NAME FROM permission WHERE id in (SELECT permissionId FROM permission_role WHERE (SELECT id FROM role WHERE NAME = ?))");
+        jdbcRealm.setPermissionsQuery("SELECT permission FROM user_permissions WHERE rolename = ?");
+//        jdbcRealm
+//                .setPermissionsQuery("SELECT permission FROM user_permissions WHERE id in (SELECT distinct permission_id FROM permission_role WHERE role_id =(SELECT id FROM user_roles WHERE username = ?))");
         DefaultSecurityManager security = new DefaultSecurityManager(jdbcRealm);
         SecurityUtils.setSecurityManager(security);
         Subject currentUser = SecurityUtils.getSubject();
         if (!currentUser.isAuthenticated()) {
             //lilei
-            UsernamePasswordToken token = new UsernamePasswordToken("李文",
+            UsernamePasswordToken token = new UsernamePasswordToken("lilei",
                     "1234");
             token.setRememberMe(true);
             try {
                 currentUser.login(token);
-                System.out.println("login successfully");
+                System.out.println(token.getPrincipal() + " login successfully");
             } catch (UnknownAccountException uae) {
                 System.out.println("There is no user with username of "
                         + token.getPrincipal());
@@ -59,12 +60,12 @@ public class JdbcReamTest {
             // your application?
             catch (AuthenticationException ae) {
                 // unexpected condition? error?
+                System.out.println(ae.getMessage());
             }
         }
         // say who they are:
         // print their identifying principal (in this case, a username):
-        System.out.println("User [" + currentUser.getPrincipal()
-                + "] logged in successfully.");
+        System.out.println("User [" + currentUser.getPrincipal() + "] logged in successfully.");
         // test a role:
         if (currentUser.hasRole("admin")) {
             System.out.println("May the admin be with you!");
@@ -73,15 +74,17 @@ public class JdbcReamTest {
         }
 
         // test a typed permission (not instance-level)
-
-        if (currentUser.isPermitted("write")) {
-            System.out.println("You can write!.");
+        System.out.println(currentUser);
+        if (currentUser.isPermitted("read")) {
+            System.out.println("You can read!");
+        }
+        if(currentUser.isPermitted("write")){
+            System.out.println("You can write!");
         } else {
-
             System.out.println("Sorry, lightsaber rings are for schwartz masters only.");
         }
-        // a (very powerful) Instance Level permission:
-        if (currentUser.isPermitted("winnebago:drive:eagle5")) {
+        // a (very powerful) Instance Level permission:  TODO
+        if (currentUser.isPermitted("lilei:read:0")) {
             System.out
                     .println("You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  "
                             + "Here are the keys - have fun!");
