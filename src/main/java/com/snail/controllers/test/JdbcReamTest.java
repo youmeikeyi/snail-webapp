@@ -38,7 +38,7 @@ public class JdbcReamTest {
         Subject currentUser = SecurityUtils.getSubject();
         if (!currentUser.isAuthenticated()) {
             //lilei
-            UsernamePasswordToken token = new UsernamePasswordToken("李文",
+            UsernamePasswordToken token = new UsernamePasswordToken("lilei",
                     "1234");
             token.setRememberMe(true);
             try {
