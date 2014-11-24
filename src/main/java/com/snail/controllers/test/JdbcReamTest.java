@@ -31,6 +31,7 @@ public class JdbcReamTest {
         jdbcRealm.setPermissionsLookupEnabled(true);
         jdbcRealm.setAuthenticationQuery("SELECT password FROM users WHERE username = ?");
         jdbcRealm.setUserRolesQuery("SELECT rolename FROM user_roles WHERE username= ?");
+        jdbcRealm.setPermissionsQuery("SELECT permission FROM user_permissions WHERE rolename= ?");
 //		jdbcRealm
 //				.setPermissionsQuery("SELECT NAME FROM permission WHERE id in (SELECT permissionId FROM permission_role WHERE (SELECT id FROM role WHERE NAME = ?))");
         DefaultSecurityManager security = new DefaultSecurityManager(jdbcRealm);
@@ -80,7 +81,7 @@ public class JdbcReamTest {
 
             System.out.println("Sorry, lightsaber rings are for schwartz masters only.");
         }
-        // a (very powerful) Instance Level permission:
+        // a (very powerful) Instance Level permission: TODO
         if (currentUser.isPermitted("winnebago:drive:eagle5")) {
             System.out
                     .println("You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  "
