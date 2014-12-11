@@ -1,6 +1,6 @@
-package com.snail.controllers.test.validator;
+package com.snail.controller.test.validator;
 
-import com.snail.controllers.test.model.Account;
+import com.snail.controller.test.model.Account;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;

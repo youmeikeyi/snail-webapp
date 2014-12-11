@@ -1,4 +1,4 @@
-package com.snail.controllers.test;
+package com.snail.controller.test;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;

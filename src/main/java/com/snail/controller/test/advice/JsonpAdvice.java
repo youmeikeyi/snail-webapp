@@ -1,4 +1,4 @@
-package com.snail.controllers.test.advice;
+package com.snail.controller.test.advice;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpResponseBodyAdvice;

@@ -1,6 +1,6 @@
-package com.snail.controllers.test;
+package com.snail.controller.test;
 
-import com.snail.controllers.test.model.User;
+import com.snail.controller.test.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -38,7 +37,6 @@ public class HelloController {
      * @return
      */
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
-//    @ResponseBody
     public ModelAndView helloWorld(HttpServletRequest request, HttpServletResponse response) {
         String message = request.getParameter("hello");
         LOGGER.info("# message:" + message);
@@ -50,11 +48,12 @@ public class HelloController {
 
     /**
      * 异步验证
+     *
      * @param model
      * @param username
      */
     @RequestMapping(value = "/ajaxUser", method = RequestMethod.POST)
-    public void validate(Model model, @RequestParam String username, HttpServletResponse response){
+    public void validate(Model model, @RequestParam String username, HttpServletResponse response) {
         System.out.println("validate username:" + username);
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
@@ -63,7 +62,7 @@ public class HelloController {
 
             if ("admin".equals(username)) {
                 out.println("success");
-            }else {
+            } else {
                 out.println("failed");
             }
 
@@ -79,11 +78,14 @@ public class HelloController {
 
     /**
      * 作为http响应正文
+     *
      * @param userId
      * @return
      */
     @RequestMapping("/ajaxModel")
-    public @ResponseBody User getUser(Integer userId){
+    public
+    @ResponseBody
+    User getUser(Integer userId) {
         User user = new User();
         user.setId(userId);
         user.setUsername("test");

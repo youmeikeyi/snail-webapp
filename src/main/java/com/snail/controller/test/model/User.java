@@ -1,4 +1,4 @@
-package com.snail.controllers.test.model;
+package com.snail.controller.test.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 

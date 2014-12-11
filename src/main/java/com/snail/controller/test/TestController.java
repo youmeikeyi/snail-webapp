@@ -1,4 +1,4 @@
-package com.snail.controllers.test;
+package com.snail.controller.test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

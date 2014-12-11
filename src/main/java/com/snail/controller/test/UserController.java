@@ -1,8 +1,8 @@
-package com.snail.controllers.test;
+package com.snail.controller.test;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.snail.controllers.test.model.Person;
-import com.snail.controllers.test.model.User;
+import com.snail.controller.test.model.Person;
+import com.snail.controller.test.model.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
